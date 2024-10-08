@@ -1,42 +1,42 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
 
-function Users() {
-    const [users, setUsers] = useState([]);
+const Users = () => {
+    const [selectedFile, setSelectedFile] = useState(null);
 
-    useEffect(() => {
-        fetch("https://jsonplaceholder.typicode.com/users") 
-            .then(res => res.json())
-            .then(data => setUsers(data))
-            .catch(error => console.error("Error fetching data: ", error));
-    }, []);
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
+    };
 
-    const listUsers = users.map((u) => (
-        <tr key={u.id}>
-            <td className="px-5 py-5 text-sm">{u.id}</td>
-            <td className="px-5 py-5 text-sm">{u.name}</td> {/* เปลี่ยน firstname เป็น name */}
-            <td className="px-5 py-5 text-sm">{u.email}</td>
-            <td className="px-5 py-5 text-sm">{u.address.street}</td> 
-            <td className="px-5 py-5 text-sm">{u.address.city}</td> {/* เพิ่ม city */}
-        </tr>
-    ));
+    const handleUpload = async () => {
+        if (!selectedFile) {
+            alert('กรุณาเลือกรูปภาพก่อน');
+            return;
+        }
 
-    return (  
-        <>
-            <h1 className="text-red-300 font-bold">แสดงชื่อผู้ใช้งาน</h1>
-            <table className="min-w-full">
-                <thead>
-                    <tr>
-                        <th className="px-5 py-3 bg-gray-200 text-gray-600 text-left">ID</th> 
-                        <th className="px-5 py-3 bg-gray-200 text-gray-600 text-left">Name</th> 
-                        <th className="px-5 py-3 bg-gray-200 text-gray-600 text-left">Email</th> 
-                        <th className="px-5 py-3 bg-gray-200 text-gray-600 text-left">Street</th>
-                        <th className="px-5 py-3 bg-gray-200 text-gray-600 text-left">City</th> {/* เพิ่ม City */}
-                    </tr>
-                </thead>
-                <tbody>{listUsers}</tbody>
-            </table>
-        </>
+        const formData = new FormData();
+        formData.append('profilePicture', selectedFile);
+        formData.append('userId', 'USER_ID_HERE'); // แทนที่ด้วย ID ของผู้ใช้
+
+        try {
+            const response = await axios.post('http://localhost:4000/updateProfilePicture', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            alert(response.data.message);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('เกิดข้อผิดพลาดในการอัปโหลดรูปโปรไฟล์');
+        }
+    };
+
+    return (
+        <div>
+            <input type="file" onChange={handleFileChange} />
+            <button onClick={handleUpload}>อัปโหลดรูปโปรไฟล์</button>
+        </div>
     );
-}
+};
 
 export default Users;

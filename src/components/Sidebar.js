@@ -11,12 +11,19 @@ export default function Sidebar() {
         <Link to="/" className="block py-3 px-4 hover:bg-gray-700">
           Dashboard
         </Link>
-        <Link to="/user" className="block py-3 px-4 hover:bg-gray-700">
+        <Link to="/myblog" className="block py-3 px-4 hover:bg-gray-700">
+          จัดการโพส
+        </Link>
+        {/* <Link to="/user" className="block py-3 px-4 hover:bg-gray-700">
           Users
+        </Link> */}
+        <Link to="/account" className="block py-3 px-4 hover:bg-gray-700">
+          จัดการบัญชี
         </Link>
-        <Link to="/about" className="block py-3 px-4 hover:bg-gray-700">
+        {/* <Link to="/about" className="block py-3 px-4 hover:bg-gray-700">
           About
-        </Link>
+        </Link> */}
+        
       </nav>
     </div>
   );

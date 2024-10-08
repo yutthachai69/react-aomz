@@ -15,9 +15,14 @@ import Users from "./pages/Users";
 import About from "./pages/About";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
+import Account from "./pages/Account";
 import { Outlet } from "react-router-dom";
-import NotPage from "./pages/์NotPage";
+import NotPage from "./pages/Notpage";
 import { AuthProvider, useAuth } from './AuthProvider'; // ตรวจสอบให้แน่ใจว่า import ถูกต้อง
+import MyBlog from "./pages/MyBlog"; // ชื่อไฟล์ต้องตรงกัน (M ใหญ่ B ใหญ่)
+import AddBlog from "./pages/AddBlog"; // ชื่อไฟล์ต้องตรงกัน (A ใหญ่ B ใหญ่)
+import EditBlog from "./pages/EditBlog";
+
 
 
 // ProtectedRoute to guard routes
@@ -58,16 +63,23 @@ function App() {
         <Routes>
           <Route element={<LayoutAdmin />}>
             <Route path="/" element={<Dashboard />} />
+            <Route path="/account" element={<Account />} />
             <Route path="/user" element={<Users />} />
             <Route path="/about" element={<About />} />
+            <Route path="/myblog" element={<MyBlog />} />
+            <Route path="/new-post" element={<AddBlog />} />
+            <Route path="/edit-post/:id" element={<EditBlog />} />
+            
           </Route>
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/notpage" element={<NotPage />} />
+          {/* เส้นทางสำหรับหน้าที่ไม่พบ */}
+          <Route path="*" element={<NotPage />} /> {/* Add this line */}
         </Routes>
       </BrowserRouter>
     </AuthProvider>
   );
 }
+
 
 export default App;
